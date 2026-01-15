@@ -137,8 +137,15 @@ rf.fit(X_train, y_train)
 lr_pred = lr.predict(X_test)
 rf_pred = rf.predict(X_test)
 
-lr_rmse = mean_squared_error(y_test, lr_pred, squared=False)
-rf_rmse = mean_squared_error(y_test, rf_pred, squared=False)
+from sklearn.metrics import mean_squared_error
+import numpy as np
+
+lr_mse = mean_squared_error(y_test, lr_pred)
+lr_rmse = np.sqrt(lr_mse)
+
+rf_mse = mean_squared_error(y_test, rf_pred)
+rf_rmse = np.sqrt(rf_mse)
+
 
 lr_mae = mean_absolute_error(y_test, lr_pred)
 rf_mae = mean_absolute_error(y_test, rf_pred)
@@ -192,7 +199,9 @@ for _ in range(20):
 with torch.no_grad():
     t_preds = transformer(X_te).numpy().flatten()
 
-transformer_rmse = mean_squared_error(y_te.numpy(), t_preds, squared=False)
+transformer_mse = mean_squared_error(y_te.numpy(), t_preds)
+transformer_rmse = np.sqrt(transformer_mse)
+
 
 # =================================================
 # MODEL PERFORMANCE
